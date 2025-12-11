@@ -71,3 +71,4 @@ export declare function randomIterator<T>(array: T[], customRandom?: Generator):
      */
     shuffle(): T[];
 };
+//# sourceMappingURL=random.d.ts.map

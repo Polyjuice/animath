@@ -1,0 +1,1 @@
+{"version":3,"file":"partition.d.ts","sourceRoot":"","sources":["../../../src/forcedirected/partition.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAE,KAAK,EAAE,IAAI,EAAE,IAAI,EAAU,MAAM,wBAAwB,CAAC;AAExE,wBAAgB,SAAS,CACrB,CAAC,SAAS,IAAI,EACd,CAAC,SAAS,IAAI,CAAC,CAAC,CAAC,EACnB,KAAK,EAAE,KAAK,CAAC,CAAC,EAAE,CAAC,CAAC,GAAG,KAAK,CAAC,CAAC,EAAE,CAAC,CAAC,EAAE,CAyEnC"}

@@ -9,3 +9,4 @@ export declare function generateCreateDragForceFunction(dimension: number): Func
 export declare function generateCreateSpringForceFunction(dimension: number): Function;
 export declare function generateIntegratorFunction(dimension: number): Function;
 export declare function generateQuadTreeFunction(dimension: number): any;
+//# sourceMappingURL=codeGenerators.d.ts.map

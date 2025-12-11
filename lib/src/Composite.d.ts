@@ -17,3 +17,4 @@ export declare class Composite<T extends vecx> {
     restLimit: number;
     name: string;
 }
+//# sourceMappingURL=Composite.d.ts.map

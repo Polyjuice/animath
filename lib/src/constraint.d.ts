@@ -8,3 +8,4 @@ export declare class Constraint<T extends vecx> {
     restingDistance: number;
     constructor(vecfn: vecfn<T>, pointA: Particle<T>, pointB: Particle<T>, stiffness?: number, restingDistance?: number);
 }
+//# sourceMappingURL=constraint.d.ts.map

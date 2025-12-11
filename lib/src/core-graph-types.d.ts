@@ -47,3 +47,4 @@ export type Point = Node & {
 export type Line<N extends Node> = Edge<N> & {
     length?: number;
 };
+//# sourceMappingURL=core-graph-types.d.ts.map

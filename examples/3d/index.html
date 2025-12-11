@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Physics Demo - Animath</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            min-height: 100vh;
+        }
+        header {
+            padding: 20px;
+            background: #16213e;
+            border-bottom: 1px solid #0f3460;
+        }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        h1 span {
+            color: #4a9eff;
+        }
+        .description {
+            color: #888;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+        main {
+            padding: 20px;
+        }
+        #artboard {
+            background: #0f0f23;
+            border-radius: 8px;
+            width: 100%;
+            height: 700px;
+            cursor: grab;
+        }
+        #artboard:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><span>Animath</span> 3D Spring Physics</h1>
+        <p class="description">
+            A soft-body cube and chain simulated with spring constraints. Drag to rotate the view.
+        </p>
+    </header>
+    <main>
+        <canvas id="artboard"></canvas>
+    </main>
+    <script type="module" src="../../.lib/examples/3d/cube-demo.js"></script>
+</body>
+</html>

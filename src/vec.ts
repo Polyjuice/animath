@@ -368,9 +368,9 @@ export function vec3sub(out: vec3, a: vec3, b: vec3) {
 }
 
 export function vec3scale(out: vec3, a: vec3, b: number) {
-    out.x *= b
-    out.y *= b;
-    out.z *= b;
+    out.x = a.x * b;
+    out.y = a.y * b;
+    out.z = a.z * b;
     return out
 }
 
@@ -391,7 +391,7 @@ function vec3fromValues(x: number, y: number, z: number) {
 }
 
 function vec3dot(a: vec3, b: vec3) {
-    return a.x * b.x + a.y * b.y + a.y * b.y;
+    return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
 export function vec3dist(a: vec3, b: vec3) {
@@ -517,10 +517,148 @@ export function vec2solve(config: Config, iterations: number, particles: Particl
 }
 
 export function vec1solve(config: Config, iterations: number, particles: Particle<vec1>[], constraints: Constraint<vec1>[], barriers: Constraint<vec1>[]): number {
-    return 0;
+    let { hooksK, friction, mass, attraction } = config;
+    let k = (hooksK / iterations);
+    let f = 1 - (friction / iterations);
+    let them = mass * iterations;
+
+    let maxvel = 0;
+
+    for (let i = 0; i < iterations; i++) {
+        // Optional attraction between particles
+        if (attraction !== 0) {
+            for (const p0 of particles) {
+                for (const p1 of particles) {
+                    if (p0 === p1) continue;
+                    const dx = p1.pos.x - p0.pos.x;
+                    const len = Math.abs(dx);
+                    if (len > 0) {
+                        const force = (1 / (len * len)) * (p0.mass * p1.mass);
+                        const dir = dx > 0 ? 1 : -1;
+                        const velocity = (-force / 10) * attraction * dir;
+                        p0.velocity.x -= (velocity / iterations);
+                        p1.velocity.x += (velocity / iterations);
+                    }
+                }
+            }
+        }
+
+        // Apply spring constraints (Hooke's law)
+        for (const s of constraints) {
+            const p0 = s.pointA;
+            const p1 = s.pointB;
+            const p0mass = Math.max(p0.mass, 0.00001);
+            const p1mass = Math.max(p1.mass, 0.00001);
+            const p0pos = p0.pos;
+            const p1pos = p1.pos;
+            const p0vel = p0.velocity;
+            const p1vel = p1.velocity;
+            const dx = p1pos.x - p0pos.x;
+            const dist = Math.abs(dx);
+            const stretch = (s.restingDistance - dist) * k * s.stiffness;
+            const sx = dx * stretch;
+            const p0accx = -sx / (p0mass * them);
+            const p1accx = +sx / (p1mass * them);
+            p0vel.x = (p0vel.x + p0accx);
+            p1vel.x = (p1vel.x + p1accx);
+        }
+
+        // Integrate position and apply friction
+        for (const p of particles) {
+            p.pos.x += p.velocity.x;
+            p.velocity.x *= f;
+            maxvel = Math.max(maxvel, Math.abs(p.velocity.x));
+        }
+    }
+
+    return maxvel;
 }
 export function vec3solve(config: Config, iterations: number, particles: Particle<vec3>[], constraints: Constraint<vec3>[], barriers: Constraint<vec3>[]): number {
-    return 0;
+    let { hooksK, friction, mass, attraction } = config;
+    let k = (hooksK / iterations);
+    let f = 1 - (friction / iterations);
+    let them = mass * iterations;
+
+    let maxvel = 0;
+
+    for (let i = 0; i < iterations; i++) {
+        // Optional attraction between particles (gravity simulation)
+        if (attraction !== 0) {
+            for (const p0 of particles) {
+                for (const p1 of particles) {
+                    if (p0 === p1) continue;
+                    const p0pos = p0.pos;
+                    const p1pos = p1.pos;
+                    const dx = p1pos.x - p0pos.x;
+                    const dy = p1pos.y - p0pos.y;
+                    const dz = p1pos.z - p0pos.z;
+                    const len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                    if (len > 0) {
+                        const force = (1 / (len * len)) * (p0.mass * p1.mass);
+                        // Normalize direction
+                        const invLen = 1 / len;
+                        const dirX = dx * invLen;
+                        const dirY = dy * invLen;
+                        const dirZ = dz * invLen;
+                        const velScale = (-force / 10) * attraction / iterations;
+                        p0.velocity.x -= dirX * velScale;
+                        p0.velocity.y -= dirY * velScale;
+                        p0.velocity.z -= dirZ * velScale;
+                        p1.velocity.x += dirX * velScale;
+                        p1.velocity.y += dirY * velScale;
+                        p1.velocity.z += dirZ * velScale;
+                    }
+                }
+            }
+        }
+
+        // Apply spring constraints (Hooke's law)
+        for (const s of constraints) {
+            const p0 = s.pointA;
+            const p1 = s.pointB;
+            const p0mass = Math.max(p0.mass, 0.00001);
+            const p1mass = Math.max(p1.mass, 0.00001);
+            const p0pos = p0.pos;
+            const p1pos = p1.pos;
+            const p0vel = p0.velocity;
+            const p1vel = p1.velocity;
+            const dx = p1pos.x - p0pos.x;
+            const dy = p1pos.y - p0pos.y;
+            const dz = p1pos.z - p0pos.z;
+            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            const stretch = (s.restingDistance - dist) * k * s.stiffness;
+            const sx = dx * stretch;
+            const sy = dy * stretch;
+            const sz = dz * stretch;
+            const p0accx = -sx / (p0mass * them);
+            const p0accy = -sy / (p0mass * them);
+            const p0accz = -sz / (p0mass * them);
+            const p1accx = +sx / (p1mass * them);
+            const p1accy = +sy / (p1mass * them);
+            const p1accz = +sz / (p1mass * them);
+            p0vel.x += p0accx;
+            p0vel.y += p0accy;
+            p0vel.z += p0accz;
+            p1vel.x += p1accx;
+            p1vel.y += p1accy;
+            p1vel.z += p1accz;
+        }
+
+        // Integrate position and apply friction
+        for (const p of particles) {
+            p.pos.x += p.velocity.x;
+            p.pos.y += p.velocity.y;
+            p.pos.z += p.velocity.z;
+
+            p.velocity.x *= f;
+            p.velocity.y *= f;
+            p.velocity.z *= f;
+
+            maxvel = Math.max(maxvel, vec3dist(vec3fn.regZero, p.velocity));
+        }
+    }
+
+    return maxvel;
 }
 
 

@@ -106,3 +106,4 @@ export declare class Spring<BDA, SDA> {
     unreal: boolean;
     constructor(from: PhysBody<BDA>, to: PhysBody<BDA>, length: number, coefficient: number, data?: SDA);
 }
+//# sourceMappingURL=physics-simulator.d.ts.map

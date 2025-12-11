@@ -325,3 +325,4 @@ export type PhysSpring<BD, SD> = PhysEdge<BD, SD> & {
     coefficient: number;
     unreal: boolean;
 };
+//# sourceMappingURL=types.d.ts.map

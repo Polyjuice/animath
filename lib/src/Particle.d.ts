@@ -7,3 +7,4 @@ export declare class Particle<T extends vecx> {
     velocity: T;
     constructor(vecfn: vecfn<T>, position?: T, mass?: number);
 }
+//# sourceMappingURL=Particle.d.ts.map

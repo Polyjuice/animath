@@ -157,3 +157,4 @@ export declare function vec2collide(p: Particle<vec2>, velocity: vec2, min: vec2
 export declare function vec2normalize(out: vec2, a: vec2): vec2;
 export declare function vec2grow(out: vec2, base: vec2, end: vec2, toadd: number): vec2;
 export {};
+//# sourceMappingURL=vec.d.ts.map

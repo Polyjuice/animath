@@ -10,3 +10,4 @@ export type JSONable = JSONableObject | number | string | boolean | null;
  * @returns {Object} merged object
  */
 export declare function merge<T>(target?: JSONableObject | null, options?: JSONableObject | null): T;
+//# sourceMappingURL=helpers.d.ts.map

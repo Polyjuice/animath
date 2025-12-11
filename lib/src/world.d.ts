@@ -9,3 +9,4 @@ export declare class World<T extends vecx> {
     constructor(vecfn: vecfn<T>);
     run(steps: number): number;
 }
+//# sourceMappingURL=world.d.ts.map
