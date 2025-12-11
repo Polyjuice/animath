@@ -1,0 +1,140 @@
+{
+    "logging": {
+        "sinks": {
+            "console": {}
+        }
+    },
+    "rest": {
+        "port": 8000,
+        "hosts": [
+            "localhost"
+        ]
+    },
+    "burpanet": {
+        "rootHost": "localhost",
+        "rootGateway": "gw.localhost",
+        "localHost": {
+            "host": "localhost",
+            "secret": "&o/_iEOad-6$4gHio159s0XCz"
+        },
+        "localGateway": {
+            "gateway": "gw.localhost",
+            "secret": "fG0sOvWzp$%d$FD_=-1oPfqQ5"
+        }
+    },
+    "esm": {
+        "bare-imports": {
+            "scratchpad": {},
+            "local_node_modules": {
+                "flowui": {
+                    "template": "/.libs/${spec}/lib/src/index.js"
+                },
+                "bewitched": {
+                    "template": "/.libs/${spec}/lib/haunted.js"
+                },
+                "naked-lit-render-engine": {},
+                "esmresolver": {},
+                "burpanet": {},
+                "burpanet-debugger": {},
+                "functional": {},
+                "worlds-fastest-router": {},
+                "naked-client": {}
+            },
+            "esm.sh": {
+                "monaco-editor": {},
+                "@monaco-editor/react": {},
+                "shared/ReactInstanceMap": {},
+                "wired-elements": {},
+                "@react-three/drei/core/useGLTF": {},
+                "@react-three/drei": {},
+                "@react-three/cannon": {},
+                "zustand": {},
+                "react-reconciler": {},
+                "scheduler": {},
+                "use-asset": {},
+                "fast-deep-equal": {},
+                "react-merge-refs": {},
+                "react-use-measure": {},
+                "@react-three/fiber": {},
+                "@react-three/postprocessing": {},
+                "react-dom/client": {},
+                "three": {},
+                "intl-tel-input": {},
+                "file-saver": {},
+                "iconoir-react": {},
+                "gsap": {},
+                "react-popper": {},
+                "scandit-sdk": {},
+                "vanilla-jsoneditor": {},
+                "xxx-haunted": {
+                    "package": "starcounter-jack-haunted",
+                    "version": "6.0.1"
+                },
+                "react": {
+                    "version": "18.2.0"
+                },
+                "react-dom": {
+                    "version": "18.2.0"
+                },
+                "lit": {
+                    "version": "2.3.1"
+                },
+                "lit-element": {
+                    "version": "*"
+                },
+                "react-analogue-clock": {
+                    "package": "starcounter-jack-react-analogue-clock",
+                    "version": "0.3.2"
+                },
+                "starcounter-jack-react-analogue-clock": {
+                    "version": "0.3.2"
+                }
+            },
+            "github": {
+                "haunted": {
+                    "repo": "starcounter-jack/haunted",
+                    "main": "lib/haunted.js"
+                },
+                "starcounter-jack-haunted": {
+                    "repo": "starcounter-jack/haunted",
+                    "main": "lib/haunted.js"
+                }
+            }
+        },
+        "resolvers": {
+            "esm.sh": {
+                "method": "esm.sh",
+                "config": {
+                    "port": 8080,
+                    "version": "stable",
+                    "target": "es2022"
+                }
+            },
+            "scratchpad": {
+                "method": "server-files",
+                "config": {
+                    "claim-prefix": "scratchpad-",
+                    "default-template": "/.libs/scratchpad/lib/${spec}.js"
+                }
+            },
+            "cdn": {
+                "method": "server-files",
+                "config": {
+                    "default-template": "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js"
+                }
+            },
+            "github": {
+                "method": "server-files",
+                "config": {
+                    "default-template": "/github/starcounter-jack/haunted/.lib/haunted.js"
+                }
+            },
+            "local_node_modules": {
+                "method": "server-files",
+                "config": {
+                    "default-template": "/.libs/${spec}/lib/index.js"
+                }
+            }
+        }
+    }
+}

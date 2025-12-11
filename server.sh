@@ -1,0 +1,1 @@
+node --trace-uncaught --enable-source-maps --inspect ../node_modules/@polyjuice/gateway/lib/index.js 80 ./

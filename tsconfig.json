@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "esnext",
+        "module": "esnext",
+        "jsx": "react",
+        "moduleResolution": "node",
+        "composite": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "rootDir": "./",
+        "outDir": "./lib"
+    },
+    "references": [],
+    "include": [
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        "./examples/**/*.ts",
+        "./examples/**/*.tsx"
+    ]
+}
