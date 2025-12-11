@@ -501,6 +501,12 @@ export function vec2solve(config: Config, iterations: number, particles: Particl
         }
 
         for (const p of particles) {
+            // Skip anchored particles (mass === 0)
+            if (p.mass === 0) {
+                p.velocity.x = 0;
+                p.velocity.y = 0;
+                continue;
+            }
 
             p.pos.x += p.velocity.x;
             p.pos.y += p.velocity.y;
@@ -565,6 +571,11 @@ export function vec1solve(config: Config, iterations: number, particles: Particl
 
         // Integrate position and apply friction
         for (const p of particles) {
+            // Skip anchored particles (mass === 0)
+            if (p.mass === 0) {
+                p.velocity.x = 0;
+                continue;
+            }
             p.pos.x += p.velocity.x;
             p.velocity.x *= f;
             maxvel = Math.max(maxvel, Math.abs(p.velocity.x));
@@ -646,6 +657,13 @@ export function vec3solve(config: Config, iterations: number, particles: Particl
 
         // Integrate position and apply friction
         for (const p of particles) {
+            // Skip anchored particles (mass === 0)
+            if (p.mass === 0) {
+                p.velocity.x = 0;
+                p.velocity.y = 0;
+                p.velocity.z = 0;
+                continue;
+            }
             p.pos.x += p.velocity.x;
             p.pos.y += p.velocity.y;
             p.pos.z += p.velocity.z;
