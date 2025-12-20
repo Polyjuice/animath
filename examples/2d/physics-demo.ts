@@ -1,8 +1,8 @@
 
-import { World } from "../src/world.js"
-import { vec2fn, vec2, vec2create } from "../src/vec.js"
-import { Particle } from "../src/Particle.js"
-import { createCloth, createTire, createStar, createParticles, createContainer } from "./objects.js"
+import { World } from "../../src/world.js"
+import { vec2fn, vec2, vec2create } from "../../src/vec.js"
+import { Particle } from "../../src/Particle.js"
+import { createCloth, createTire, createStar, createParticles, createContainer } from "../objects.js"
 
 let world = new World<vec2>(vec2fn);
 

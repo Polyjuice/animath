@@ -1,13 +1,25 @@
 import { vecfn, vecx } from "./vec.js"
 import { Particle } from "./Particle.js"
 
+export type BreakMode = 'extension' | 'compression' | 'both';
+
 export class Constraint<T extends vecx> {
     public restingDistance: number;
 
+    // Breaking point properties
+    public broken: boolean = false;
+    public breakingPoint?: number;  // Strain threshold (e.g., 0.5 = 50% stretch)
+    public breakMode: BreakMode = 'extension';
+    public currentStrain: number = 0;  // Updated each frame for visual feedback
+    public onBreak?: (constraint: Constraint<T>, strain: number) => void;
+
     constructor(public vecfn: vecfn<T>, public pointA: Particle<T>, public pointB: Particle<T>, public stiffness: number = 1, restingDistance?: number) {
         this.restingDistance = (restingDistance !== undefined) ? restingDistance : vecfn.dist(this.pointA.pos, this.pointB.pos)
-        //        this.restingDistance *= 0.7;
-        //        console.log("rest", this.restingDistance);
+    }
+
+    /** Reset the constraint to active state */
+    repair(): void {
+        this.broken = false;
     }
 
     // solve() {

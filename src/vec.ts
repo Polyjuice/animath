@@ -416,18 +416,30 @@ export function vec2solve(config: Config, iterations: number, particles: Particl
     let them = mass * iterations;
 
 
-    // First pass to check if we break a spring
+    // First pass: update strain and check for breaking
     for (const s of constraints) {
         const p0 = s.pointA;
         const p1 = s.pointB;
-        const p0pos = p0.pos;
-        const p1pos = p1.pos;
-        const dx = p1pos.x - p0pos.x;
-        const dy = p1pos.y - p0pos.y;
+        const dx = p1.pos.x - p0.pos.x;
+        const dy = p1.pos.y - p0.pos.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const stretch = (s.restingDistance - dist) * k;
-        if ((stretch / k) > 10) {
-            // console.log("im breaking!", stretch / k)
+
+        // Update strain for visual feedback
+        if (s.restingDistance !== 0) {
+            s.currentStrain = Math.abs(dist - s.restingDistance) / s.restingDistance;
+        }
+
+        // Check for breaking
+        if (!s.broken && s.breakingPoint !== undefined) {
+            const isExtension = dist > s.restingDistance;
+            const shouldCheck = s.breakMode === 'both' ||
+                (s.breakMode === 'extension' && isExtension) ||
+                (s.breakMode === 'compression' && !isExtension);
+
+            if (shouldCheck && s.currentStrain >= s.breakingPoint) {
+                s.broken = true;
+                s.onBreak?.(s, s.currentStrain);
+            }
         }
     }
 
@@ -461,6 +473,9 @@ export function vec2solve(config: Config, iterations: number, particles: Particl
             }
         }
         for (const s of constraints) {
+            // Skip force application if broken
+            if (s.broken) continue;
+
             const p0 = s.pointA;
             const p1 = s.pointB;
             const p0mass = Math.max(p0.mass, 0.00001);
@@ -553,14 +568,36 @@ export function vec1solve(config: Config, iterations: number, particles: Particl
         for (const s of constraints) {
             const p0 = s.pointA;
             const p1 = s.pointB;
-            const p0mass = Math.max(p0.mass, 0.00001);
-            const p1mass = Math.max(p1.mass, 0.00001);
             const p0pos = p0.pos;
             const p1pos = p1.pos;
-            const p0vel = p0.velocity;
-            const p1vel = p1.velocity;
             const dx = p1pos.x - p0pos.x;
             const dist = Math.abs(dx);
+
+            // Update strain for visual feedback
+            if (s.restingDistance !== 0) {
+                s.currentStrain = Math.abs(dist - s.restingDistance) / s.restingDistance;
+            }
+
+            // Check for breaking
+            if (!s.broken && s.breakingPoint !== undefined) {
+                const isExtension = dist > s.restingDistance;
+                const shouldCheck = s.breakMode === 'both' ||
+                    (s.breakMode === 'extension' && isExtension) ||
+                    (s.breakMode === 'compression' && !isExtension);
+
+                if (shouldCheck && s.currentStrain >= s.breakingPoint) {
+                    s.broken = true;
+                    s.onBreak?.(s, s.currentStrain);
+                }
+            }
+
+            // Skip force application if broken
+            if (s.broken) continue;
+
+            const p0mass = Math.max(p0.mass, 0.00001);
+            const p1mass = Math.max(p1.mass, 0.00001);
+            const p0vel = p0.velocity;
+            const p1vel = p1.velocity;
             const stretch = (s.restingDistance - dist) * k * s.stiffness;
             const sx = dx * stretch;
             const p0accx = -sx / (p0mass * them);
@@ -627,16 +664,38 @@ export function vec3solve(config: Config, iterations: number, particles: Particl
         for (const s of constraints) {
             const p0 = s.pointA;
             const p1 = s.pointB;
-            const p0mass = Math.max(p0.mass, 0.00001);
-            const p1mass = Math.max(p1.mass, 0.00001);
             const p0pos = p0.pos;
             const p1pos = p1.pos;
-            const p0vel = p0.velocity;
-            const p1vel = p1.velocity;
             const dx = p1pos.x - p0pos.x;
             const dy = p1pos.y - p0pos.y;
             const dz = p1pos.z - p0pos.z;
             const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            // Update strain for visual feedback
+            if (s.restingDistance !== 0) {
+                s.currentStrain = Math.abs(dist - s.restingDistance) / s.restingDistance;
+            }
+
+            // Check for breaking
+            if (!s.broken && s.breakingPoint !== undefined) {
+                const isExtension = dist > s.restingDistance;
+                const shouldCheck = s.breakMode === 'both' ||
+                    (s.breakMode === 'extension' && isExtension) ||
+                    (s.breakMode === 'compression' && !isExtension);
+
+                if (shouldCheck && s.currentStrain >= s.breakingPoint) {
+                    s.broken = true;
+                    s.onBreak?.(s, s.currentStrain);
+                }
+            }
+
+            // Skip force application if broken
+            if (s.broken) continue;
+
+            const p0mass = Math.max(p0.mass, 0.00001);
+            const p1mass = Math.max(p1.mass, 0.00001);
+            const p0vel = p0.velocity;
+            const p1vel = p1.velocity;
             const stretch = (s.restingDistance - dist) * k * s.stiffness;
             const sx = dx * stretch;
             const sy = dy * stretch;

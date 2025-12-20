@@ -99,16 +99,18 @@ artboard.addEventListener("mousemove", (e) => {
 });
 
 artboard.addEventListener("mouseup", () => {
-    if (draggedParticle) {
+    if (draggedParticle && draggedComposite) {
         draggedParticle.mass = 1; // Release
+        draggedComposite.maxvel = Number.MAX_VALUE; // Wake up the composite
         draggedParticle = null;
         draggedComposite = null;
     }
 });
 
 artboard.addEventListener("mouseleave", () => {
-    if (draggedParticle) {
+    if (draggedParticle && draggedComposite) {
         draggedParticle.mass = 1;
+        draggedComposite.maxvel = Number.MAX_VALUE; // Wake up the composite
         draggedParticle = null;
         draggedComposite = null;
     }

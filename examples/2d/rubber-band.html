@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Physics Demo - Animath</title>
+    <title>Rubber Band Demo - Animath</title>
     <style>
         * {
             margin: 0;
@@ -23,14 +23,17 @@
             padding: 20px;
             background: #16213e;
             border-bottom: 1px solid #0f3460;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        h1 {
+        .title-section h1 {
             font-size: 1.5rem;
             font-weight: 500;
         }
 
-        h1 span {
+        .title-section h1 span {
             color: #4a9eff;
         }
 
@@ -38,6 +41,26 @@
             color: #888;
             margin-top: 8px;
             font-size: 0.9rem;
+        }
+
+        #reset {
+            background: #4a9eff;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        #reset:hover {
+            background: #3a8eef;
+        }
+
+        #reset:active {
+            background: #2a7edf;
         }
 
         main {
@@ -48,7 +71,7 @@
             background: #0f0f23;
             border-radius: 8px;
             width: 100%;
-            height: 700px;
+            height: 550px;
             cursor: grab;
         }
 
@@ -60,15 +83,19 @@
 
 <body>
     <header>
-        <h1><span>Animath</span> 3D Spring Physics</h1>
-        <p class="description">
-            A soft-body cube and chain simulated with spring constraints. Drag to rotate the view.
-        </p>
+        <div class="title-section">
+            <h1><span>Animath</span> Rubber Band Demo</h1>
+            <p class="description">
+                Drag the center point to stretch the rubber bands.
+                They break when stretched past the threshold.
+            </p>
+        </div>
+        <button id="reset">Reset Springs</button>
     </header>
     <main>
         <canvas id="artboard"></canvas>
     </main>
-    <script type="module" src="../.lib/examples/3d/cube-demo.js"></script>
+    <script type="module" src="../.lib/examples/2d/rubber-band-demo.js"></script>
 </body>
 
 </html>
